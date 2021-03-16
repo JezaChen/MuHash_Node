@@ -1,0 +1,36 @@
+{
+  "name": "muhash-node",
+  "version": "1.0.0",
+  "description": "A node implementation of MuHash",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js",
+    "build:dev": "node-gyp -j 16 build --debug",
+    "build": "node-gyp -j 16 build",
+    "rebuild:dev": "node-gyp -j 16 rebuild --debug",
+    "rebuild": "node-gyp -j 16 rebuild",
+    "clean": "node-gyp clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JezaChen/muhash-node.git"
+  },
+  "keywords": [
+    "MuHash"
+  ],
+  "author": "Jeza Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JezaChen/muhash-node/issues"
+  },
+  "homepage": "https://github.com/JezaChen/muhash-node#readme",
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "node-addon-api": "^3.0.0"
+  },
+  "private": false,
+  "gypfile": true
+}
