@@ -30,7 +30,7 @@ npm install
 
 A complete example is given below, which covers all the usage of the package.
 
-```
+```js
 const MuHash = require('muhash-node').MuHash;
 
 //Definition and initialization， the parameter must be of Buffer type
