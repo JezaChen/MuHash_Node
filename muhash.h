@@ -10,8 +10,6 @@
 #include <cstdint>
 #include <cstdio>
 
-typedef unsigned char byte;
-
 
 class Num3072
 {

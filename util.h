@@ -9,9 +9,7 @@
 #include <string>
 #include <cstring>
 
-#include <cryptopp/base64.h>
-
-using namespace CryptoPP;
+typedef unsigned char byte;
 
 constexpr inline bool IsSpace(char c) noexcept {
     return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';

@@ -1,6 +1,6 @@
 {
   "name": "muhash-node",
-  "version": "1.0.0c",
+  "version": "1.0.1",
   "description": "A node.js implementation of MuHash",
   "main": "index.js",
   "scripts": {

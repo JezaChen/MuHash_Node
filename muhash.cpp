@@ -5,14 +5,12 @@
 #include "muhash.h"
 #include "util.h"
 #include "chacha20.h"
+#include "sha256.h"
 
 #include <cassert>
 #include <cstdio>
 #include <limits>
-#include <cryptopp/sha.h>
 #include <cstring>
-
-using namespace CryptoPP;
 
 namespace {
 
@@ -310,10 +308,12 @@ void Num3072::ToBytes(unsigned char (&out)[BYTE_SIZE]) {
 
 Num3072 MuHash3072::ToNum3072(const unsigned char *in, int len) {
     unsigned char tmp[Num3072::BYTE_SIZE];
-    byte abDigest[CryptoPP::SHA256::DIGESTSIZE];
-    CryptoPP::SHA256().CalculateDigest(abDigest, in, len);
+    byte abDigest[SHA256::DIGESTSIZE];
+    auto sha256 = SHA256();
+    sha256.update(in, len);
+    sha256.digest(abDigest);
 
-    ChaCha20(abDigest, CryptoPP::SHA256::DIGESTSIZE).Keystream(tmp, Num3072::BYTE_SIZE);
+    ChaCha20(abDigest, SHA256::DIGESTSIZE).Keystream(tmp, Num3072::BYTE_SIZE);
     Num3072 out{tmp};
 
     return out;
@@ -337,9 +337,12 @@ void MuHash3072::Finalize(uint256& out) noexcept
     unsigned char data[Num3072::BYTE_SIZE];
     m_numerator.ToBytes(data);
 
-    byte abDigest[CryptoPP::SHA256::DIGESTSIZE];
-    CryptoPP::SHA256().CalculateDigest(abDigest, data, Num3072::BYTE_SIZE);
-    out = uint256(abDigest, CryptoPP::SHA256::DIGESTSIZE);
+    byte abDigest[SHA256::DIGESTSIZE];
+    auto sha256 = SHA256();
+    sha256.update(data, Num3072::BYTE_SIZE);
+    sha256.digest(abDigest);
+
+    out = uint256(abDigest, SHA256::DIGESTSIZE);
 }
 
 MuHash3072& MuHash3072::operator*=(const MuHash3072& mul) noexcept
