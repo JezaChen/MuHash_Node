@@ -113,9 +113,9 @@ public:
     MuHash3072& operator/=(const MuHash3072& div) noexcept;
 
     /* Finalize into a 32-byte hash. Does not change this object's value. */
-    void Finalize(uint256& out) noexcept;
+    void Digest(uint256& out) noexcept;
 
-    std::string FinalizeBase64() noexcept;
+    std::string DigestBase64() noexcept;
 
 };
 

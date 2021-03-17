@@ -329,13 +329,17 @@ MuHash3072::MuHash3072(const unsigned char *in, int len) noexcept
     m_numerator = ToNum3072(in, len);
 }
 
-void MuHash3072::Finalize(uint256& out) noexcept
+void MuHash3072::Digest(uint256& out) noexcept
 {
-    m_numerator.Divide(m_denominator);
-    m_denominator.SetToOne();  // Needed to keep the MuHash object valid
+    //copy numerator and denominator because they will be reused.
+    auto m_numerator_output = m_numerator;
+    auto m_denominator_output = m_denominator;
+
+    m_numerator_output.Divide(m_denominator_output);
+    m_denominator_output.SetToOne();  // Needed to keep the MuHash object valid
 
     unsigned char data[Num3072::BYTE_SIZE];
-    m_numerator.ToBytes(data);
+    m_numerator_output.ToBytes(data);
 
     byte abDigest[SHA256::DIGESTSIZE];
     auto sha256 = SHA256();
@@ -369,8 +373,8 @@ MuHash3072& MuHash3072::Remove(const unsigned char *in, int len) noexcept {
     return *this;
 }
 
-std::string MuHash3072::FinalizeBase64() noexcept {
+std::string MuHash3072::DigestBase64() noexcept {
     uint256 out;
-    this->Finalize(out);
+    this->Digest(out);
     return out.SerializeBase64();
 }

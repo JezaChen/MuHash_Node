@@ -96,13 +96,13 @@ void MuHashWrapper::Div(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value MuHashWrapper::GetHashBase64(const Napi::CallbackInfo& info) {
-    std::string hash = this->_mu_hash_instance.FinalizeBase64();
+    std::string hash = this->_mu_hash_instance.DigestBase64();
     return Napi::String::New(info.Env(), hash);
 }
 
 Napi::Value MuHashWrapper::GetHash(const Napi::CallbackInfo& info) {
     uint256 rslt; //256bit uint
-    this->_mu_hash_instance.Finalize(rslt);
+    this->_mu_hash_instance.Digest(rslt);
     unsigned char tmp[32]; 
     rslt.Serialize((char *)tmp); //todo
     return Napi::Buffer<unsigned char>::Copy(info.Env(), tmp, 32); //不能用New而是用Copy, 因为tmp指针在函数结束后就释放了

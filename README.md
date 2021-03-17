@@ -13,7 +13,7 @@ Incrementality at Reduced Cost* (https://cseweb.ucsd.edu/~mihir/papers/inchash.p
 You can install directly using npm:
 
 ```
-npm install muhash-node
+npm install muhash
 ```
 
 If you want to download and compile it, follow the steps below:
@@ -31,7 +31,7 @@ npm install
 A complete example is given below, which covers all the usage of the package.
 
 ```js
-const MuHash = require('muhash-node').MuHash;
+const MuHash = require('muhash').MuHash;
 
 //Definition and initialization， the parameter must be of Buffer type
 let muhash = new MuHash(Buffer.from("Test 1")); 

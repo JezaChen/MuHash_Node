@@ -315,3 +315,35 @@ describe('Exception Test', function() {
         expect(() => muhash.remove({a: 1, b: 2})).to.throw("Buffer expected");
     });
 });
+
+// Finalize后还能继续使用
+describe('Reuse After Finalization', function() {
+    it('Reuse Test I', function() {
+        let item1_buf = Buffer.from("Item1");
+        let item2_buf = Buffer.from("Item2");
+
+        let a_muhash = new addon.MuHashWrapper(item1_buf);
+        a_muhash.finalizeBase64(); //Finalize
+        a_muhash.insert(item2_buf); //Reuse
+
+        let ab_muhash = new addon.MuHashWrapper(item1_buf);
+        ab_muhash.insert(item2_buf);
+        expect(a_muhash.finalizeBase64()).to.be.equal(ab_muhash.finalizeBase64());
+    });
+
+    it('Reuse Test II', function() {
+        let item1_buf = Buffer.from("Item1");
+        let item2_buf = Buffer.from("Item2");
+
+        let a_muhash = new addon.MuHashWrapper(item1_buf);
+        let b_muhash = new addon.MuHashWrapper(item2_buf);
+        a_muhash.finalizeBase64(); //Finalize
+        b_muhash.finalizeBase64();
+
+        a_muhash.mul(b_muhash); //Reuse a_muhash and b_muhash
+
+        let ab_muhash = new addon.MuHashWrapper(item1_buf);
+        ab_muhash.insert(item2_buf);
+        expect(a_muhash.finalizeBase64()).to.be.equal(ab_muhash.finalizeBase64());
+    });
+});
